@@ -1,0 +1,2 @@
+# GI_UGC-AFK-SCRIPT
+1

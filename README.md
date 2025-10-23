@@ -9,10 +9,61 @@
 
 > __以下为「 原神 」部分教程__
 
+<a href="img1">
+  
 - __找到所需关卡，并点击右上角的「 创建房间 」按钮__
 
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/1.png)
+
+</a>
+
+<a href="img2">
+  
 - __移动至准备区，确认关卡中只有1位玩家，然后点击右上角「 收起 」按钮__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/2.png)
+
+</a>
+
+<a href="img3">
 
 - __最终在该界面时即可使用「 BetterGI 」运行脚本__
 
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/3.png)
+
+</a>
+
 > __以下为「 BetterGI 」部分教程__
+
+- __在「 全自动 」-「 JS 脚本 」选项卡中，点击「 打开脚本目录 」按钮__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/4.png)
+
+- __下载并在打开的文件夹中解压脚本文件（3个脚本文件应处于文件夹中，文件夹名称随意，请确认文件结构和图中相同）__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/5.png)
+
+- __在「 全自动 」-「 调度器 」选项卡中，点击「 新增配置组 」按钮，添加一个任意名称的配置组__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/6.png)
+
+- __点击刚刚创建的配置组标签，并选择「 添加 」-「 JS脚本 」，添加刚刚解压的JS脚本__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/7.png)
+
+- __右键点击刚刚添加的JS脚本，选择「 修改JS脚本自定义配置 」，并设置两个游戏内快捷键的按键（进入房间按键可在「 [原神教程#3](#img3)图中右侧"房间"部分 」找到）（开始游戏按键可在「 [原神教程#2](#img2)图中右下角找到 」）__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/X.png)
+
+- __点击「 连续执行 」按钮，在弹出的窗口内选中创建的配置组，点击「 确认执行 」按钮（*：或者直接在配置组选项卡内点击「 运行 」也可以实现相同效果）__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/8.png)
+
+> [!WARNING]
+> __脚本运行中时间间隔为固定值，游戏运行过慢可能导致出现异常__
+> __请先确认：__
+> - __进入关卡房间过程中，耗时不超过1s__
+> - __开始游戏后，在关卡内耗时不超过30s__
+> - __关卡结束并结算时，点击返回大厅按钮后，大厅加载过程耗时不超过10s__
+>
+> ___务必在使用脚本前确认以上项目___

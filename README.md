@@ -49,9 +49,14 @@
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/X.png)
 
-- __点击「 连续执行 」按钮，在弹出的窗口内选中创建的配置组，点击「 确认执行 」按钮（*：或者直接在配置组选项卡内点击「 运行 」也可以实现相同效果）__
+- __在配置组对应项目的选项卡右侧部分点击「 运行 」即可开始脚本执行（*：请务必不要点击左侧连续执行，否则会由于BetterGI暂时无法识别千星奇域的主界面而卡住）__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/8.png)
+
+> [!NOTE]
+> __请在开始前先设置BetterGI快捷键，防止无法停止脚本__
+> - __启动停止 BetterGI__
+> - __停止当前脚本/独立任务__
 
 > [!WARNING]
 > __脚本运行中时间间隔为固定值，游戏运行过慢可能导致出现异常__

@@ -1,0 +1,15 @@
+{
+  "manifest_version": 1,
+  "name": "千星奇域自动挂经验",
+  "version": "1.0",
+  "bgi_version": "0.52.0",
+  "description": "README\n\n脚本基于「 一秒速通刷千星等级 」关卡制作，关卡GUID：7094676912\n启动前请先在关卡界面创建房间，确保房间内就有1位玩家，并在完成准备后回到主界面",
+  "authors": [
+    {
+      "name": "FeiLingshu",
+      "link": "https://github.com/FeiLingshu"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "inputValue_1",
+    "type": "input-text",
+    "label": "进入房间按键"
+  },
+  {
+    "name": "inputValue_2",
+    "type": "input-text",
+    "label": "开始游戏按键"
+  }
+]

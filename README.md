@@ -9,29 +9,23 @@
 
 > __以下为「 原神 」部分教程__
 
-<a id="img1">
+<a id="img1"/>
   
 - __找到所需关卡，并点击右上角的「 创建房间 」按钮__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/1.png)
 
-</a>
-
-<a id="img2">
+<a id="img2"/>
   
 - __移动至准备区，确认关卡中只有1位玩家，然后点击右上角「 收起 」按钮__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/2.png)
 
-</a>
-
-<a id="img3">
+<a id="img3"/>
 
 - __最终在该界面时即可使用「 BetterGI 」运行脚本__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/3.png)
-
-</a>
 
 > __以下为「 BetterGI 」部分教程__
 

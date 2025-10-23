@@ -54,7 +54,11 @@
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/X.png)
 
-- __在配置组对应项目的选项卡右侧部分点击「 运行 」即可开始脚本执行（*：请务必不要点击左侧连续执行，否则会由于BetterGI暂时无法识别千星奇域的主界面而卡住）__
+- __运行脚本前，需手动启动BetterGI（重要！！！），也可以通过快捷键启动（如果不手动启动直接运行脚本，会由于BetterGI自动启动策略进入原神主界面检查，而目前BetterGI没有针对千星奇域做适配，所以该过程会卡住）__
+
+![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/Z.png)
+
+- __在配置组对应项目的选项卡右侧部分点击「 运行 」即可开始脚本执行（*：请尽量避免点击左侧连续执行，否则可能会由于BetterGI暂时无法识别千星奇域的主界面而卡住）__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/8.png)
 

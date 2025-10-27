@@ -35,6 +35,7 @@
     }
     let times = 0;
     while (true) {
+        const start = Date.now();
         await sleep(200)
         keyPress(key_1.toUpperCase());
         await sleep(1000);
@@ -42,10 +43,10 @@
         let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
         for (let i = 0; i < resList_2.count; i++) {
             let res = resList_2[i];
-            if (res.text.includes("一秒速通刷千星等级")) {
+            if (times != 0 || res.text.includes("一秒速通刷千星等级")) {
                 result_state[0] = true;
             }
-            if (res.text.includes("准备区1/8")) {
+            if (times != 0 || res.text.includes("准备区1/8")) {
                 result_state[1] = true;
             }
             if (res.text.includes("开始游戏")) {
@@ -53,7 +54,9 @@
             }
         }
         if (result_state[0]) {
-            log.info("/>_ 关卡名称已识别");
+            if (times == 0) {
+                log.info("/>_ 关卡名称已识别");
+            }
         } else {
             log.error("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
             return;
@@ -79,7 +82,8 @@
                 }
                 if (state) {
                     times++;
-                    log.info("/>_ 关卡已完成（次数：{time}）", times);
+                    const end = Date.now();
+                    log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((end - start) / 1000).toFixed(3));
                     break;
                 }
                 count++;

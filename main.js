@@ -23,11 +23,11 @@
         if (res.text.includes("房间")) {
             result_page[0] = true;
         }
-        if (res.text.includes("1/8") && res.text.includes("准备就绪")) {
+        if (/1.+8/.test(res.text) && res.text.includes("准备就绪")) {
             result_page[1] = true;
         }
     }
-    if (result_page[0] & result_page[1]) {
+    if (result_page[1]) {
         log.info("/>_ 游戏主界面已识别");
     } else {
         log.error("/>_ 请确认下方步骤是否完成：\n                   - 创建关卡房间\n                   - 进入准备区\n                   - 确保房间中仅有1位玩家\n                   - 返回主界面");
@@ -35,6 +35,7 @@
     }
     let times = 0;
     while (true) {
+        await sleep(200)
         keyPress(key_1.toUpperCase());
         await sleep(1000);
         let captureRegion_2 = captureGameRegion();
@@ -58,6 +59,7 @@
             return;
         }
         if (result_state[1] & result_state[2]) {
+            await sleep(200)
             keyPress(key_2.toUpperCase());
             await sleep(1000);
             let state = false;
@@ -68,7 +70,8 @@
                 for (let i = 0; i < resList_3.count; i++) {
                     let res = resList_3[i];
                     if (res.text.includes("返回大厅")) {
-                        moveMouseTo(res.x, res.y);
+                        await sleep(200)
+                        moveMouseTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
                         leftButtonClick();
                         state = true;
                         break;
@@ -90,21 +93,18 @@
             log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
             return;
         }
-        let result_reset = [false, false];
+        let result_reset = false
         let count = 0;
         while (true) {
             let captureRegion_4 = captureGameRegion();
             let resList_4 = captureRegion_4.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList_4.count; i++) {
                 let res = resList_4[i];
-                if (res.text.includes("房间")) {
-                    result_reset[0] = true;
-                }
-                if (res.text.includes("1/8") && res.text.includes("准备就绪")) {
-                    result_reset[1] = true;
+                if (res.text.includes("房间") || res.text.includes("准备就绪")) {
+                    result_reset = true;
                 }
             }
-            if (result_reset[0] & result_reset[1]) {
+            if (result_reset) {
                 break;
             } else {
                 count++;

@@ -46,7 +46,7 @@
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/4.png)
 
-- __下载并在打开的文件夹中解压脚本文件（3个脚本文件应处于文件夹中，文件夹名称随意，请确认文件结构和图中相同）__
+- __下载并在打开的文件夹中解压脚本文件（3个脚本文件应处于文件夹中，文件夹名称随意，请确认文件结构和图中相同，README文档和LICENSE文档为非必要文件，不影响脚本执行）__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/5.png)
 

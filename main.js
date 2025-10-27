@@ -15,7 +15,6 @@
         return;
     }
     let result_page = [false, false];
-    let result_state = [false, false, false];
     let captureRegion_1 = captureGameRegion();
     let resList_1 = captureRegion_1.findMulti(RecognitionObject.ocrThis);
     for (let i = 0; i < resList_1.count; i++) {
@@ -35,90 +34,75 @@
     }
     let times = 0;
     while (true) {
-        const start = Date.now();
-        await sleep(200)
-        keyPress(key_1.toUpperCase());
-        await sleep(1000);
-        let captureRegion_2 = captureGameRegion();
-        let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
-        for (let i = 0; i < resList_2.count; i++) {
-            let res = resList_2[i];
-            if (times != 0 || res.text.includes("一秒速通刷千星等级")) {
-                result_state[0] = true;
-            }
-            if (times != 0 || res.text.includes("准备区1/8")) {
-                result_state[1] = true;
-            }
-            if (res.text.includes("开始游戏")) {
-                result_state[2] = true;
-            }
-        }
-        if (result_state[0]) {
-            if (times == 0) {
-                log.info("/>_ 关卡名称已识别");
-            }
-        } else {
-            log.error("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
-            return;
-        }
-        if (result_state[1] & result_state[2]) {
-            await sleep(200)
-            keyPress(key_2.toUpperCase());
-            await sleep(1000);
-            let state = false;
+        let result_state = [false, false, false];
+        let timer = new Date(0);
+        while (true) {
             let count = 0;
-            while (true) {
-                let captureRegion_3 = captureGameRegion();
-                let resList_3 = captureRegion_3.findMulti(RecognitionObject.ocrThis);
-                for (let i = 0; i < resList_3.count; i++) {
-                    let res = resList_3[i];
-                    if (res.text.includes("返回大厅")) {
-                        await sleep(200)
-                        moveMouseTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
-                        leftButtonClick();
-                        state = true;
-                        break;
-                    }
+            await sleep(200);
+            keyPress(key_1.toUpperCase());
+            await sleep(1000);
+            let captureRegion_2 = captureGameRegion();
+            let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
+            for (let i = 0; i < resList_2.count; i++) {
+                let res = resList_2[i];
+                if (times != 0 || res.text.includes("一秒速通刷千星等级")) {
+                    result_state[0] = true;
                 }
-                if (state) {
-                    times++;
-                    const end = Date.now();
-                    log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((end - start) / 1000).toFixed(3));
-                    break;
+                if (times != 0 || res.text.includes("准备区1/8")) {
+                    result_state[1] = true;
                 }
-                count++;
-                if (count == 30) {
-                    log.error("/>_ 由于未知原因，未能检测到游戏结束行为");
+                if (res.text.includes("开始游戏")) {
+                    result_state[2] = true;
+                }
+            }
+            if (times == 0) {
+                if (result_state[0] & result_state[1]) {
+                    log.info("/>_ 关卡名称已识别");
+                } else {
+                    log.error("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
                     return;
                 }
-                await sleep(1000);
             }
-        } else {
-            log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
-            return;
-        }
-        let result_reset = false
-        let count = 0;
-        while (true) {
-            let captureRegion_4 = captureGameRegion();
-            let resList_4 = captureRegion_4.findMulti(RecognitionObject.ocrThis);
-            for (let i = 0; i < resList_4.count; i++) {
-                let res = resList_4[i];
-                if (res.text.includes("房间") || res.text.includes("准备就绪")) {
-                    result_reset = true;
-                }
-            }
-            if (result_reset) {
+            if (result_state[2]) {
+                timer = Date.now();
                 break;
             } else {
                 count++;
                 if (count == 10) {
-                    log.error("/>_ 由于未知原因，未能检测到返回主界面行为");
+                    log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
                     return;
                 }
-                await sleep(1000);
             }
         }
+        await sleep(200);
+        keyPress(key_2.toUpperCase());
         await sleep(1000);
+        let state = false;
+        let count = 0;
+        while (true) {
+            let captureRegion_3 = captureGameRegion();
+            let resList_3 = captureRegion_3.findMulti(RecognitionObject.ocrThis);
+            for (let i = 0; i < resList_3.count; i++) {
+                let res = resList_3[i];
+                if (res.text.includes("返回大厅")) {
+                    await sleep(200);
+                    moveMouseTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
+                    leftButtonClick();
+                    state = true;
+                    break;
+                }
+            }
+            if (state) {
+                times++;
+                log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((Date.now() - timer) / 1000).toFixed(3));
+                break;
+            }
+            count++;
+            if (count == 30) {
+                log.error("/>_ 由于未知原因，未能检测到游戏结束行为");
+                return;
+            }
+            await sleep(1000);
+        }
     }
 })();

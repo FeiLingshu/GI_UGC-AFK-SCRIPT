@@ -25,7 +25,9 @@
         if (/1.+8/.test(res.text) && res.text.includes("准备就绪")) {
             result_page[1] = true;
         }
+        res.Dispose();
     }
+    captureRegion_1.Dispose();
     if (result_page[1]) {
         log.info("/>_ 游戏主界面已识别");
     } else {
@@ -35,9 +37,10 @@
     let times = 0;
     while (true) {
         let result_state = [false, false, false];
+        let check_state = false;
         let timer = new Date(0);
+        let count_1 = 0;
         while (true) {
-            let count = 0;
             await sleep(200);
             keyPress(key_1.toUpperCase());
             await sleep(1000);
@@ -54,21 +57,32 @@
                 if (res.text.includes("开始游戏")) {
                     result_state[2] = true;
                 }
+                res.Dispose();
             }
-            if (times == 0) {
+            captureRegion_2.Dispose();
+            if (times == 0 && check_state == false) {
                 if (result_state[0] & result_state[1]) {
+                    check_state = true;
                     log.info("/>_ 关卡名称已识别");
                 } else {
-                    log.error("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
-                    return;
+                    count_1++
+                    if (count_1 == 5) {
+                        check_state = true;
+                        log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);
+                        log.warn("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
+                        log.warn("/>_ 脚本将尽力尝试继续运行，如遇问题请终止脚本并重新尝试");
+                    } else {
+                        log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);
+                        continue;
+                    }
                 }
             }
             if (result_state[2]) {
                 timer = Date.now();
                 break;
             } else {
-                count++;
-                if (count == 10) {
+                count_1++;
+                if (count_1 == 10) {
                     log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
                     return;
                 }
@@ -78,7 +92,7 @@
         keyPress(key_2.toUpperCase());
         await sleep(1000);
         let state = false;
-        let count = 0;
+        let count_2 = 0;
         while (true) {
             let captureRegion_3 = captureGameRegion();
             let resList_3 = captureRegion_3.findMulti(RecognitionObject.ocrThis);
@@ -91,14 +105,16 @@
                     state = true;
                     break;
                 }
+                res.Dispose();
             }
+            captureRegion_3.Dispose();
             if (state) {
                 times++;
                 log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((Date.now() - timer) / 1000).toFixed(3));
                 break;
             }
-            count++;
-            if (count == 30) {
+            count_2++;
+            if (count_2 == 30) {
                 log.error("/>_ 由于未知原因，未能检测到游戏结束行为");
                 return;
             }

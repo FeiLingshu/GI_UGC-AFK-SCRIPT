@@ -1,5 +1,25 @@
 [
   {
+    "name": "inputValue_OCR1",
+    "type": "input-text",
+    "label": "[OCR] 关卡名称\n++ 推荐使用作者开发时使用的关卡，详见GitHub"
+  },
+  {
+    "name": "inputValue_OCR2",
+    "type": "select",
+    "label": "[OCR] 关卡人数限制\n++ 请按实际情况选择",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
     "name": "inputValue_1",
     "type": "input-text",
     "label": "进入房间按键"

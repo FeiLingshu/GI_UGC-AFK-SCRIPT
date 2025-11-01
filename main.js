@@ -1,6 +1,20 @@
 (async function () {
+    const gamename = settings.inputValue_OCR1;
+    const gameplayer = settings.inputValue_OCR2;
+    if (typeof gamename === typeof (void 0) || typeof gameplayer === typeof (void 0)) {
+        log.error("/>_ 请先JS配置中填写关卡信息参数");
+        return;
+    }
+    if (gamename == "" && (gameplayer == "" || gameplayer < 1 || gameplayer > 8)) {
+        log.error("/>_ 请先JS配置中填写关卡信息参数");
+        return;
+    }
     const key_1 = settings.inputValue_1;
     const key_2 = settings.inputValue_2;
+    if (typeof key_1 === typeof (void 0) || typeof key_2 === typeof (void 0)) {
+        log.error("/>_ 请先JS配置中填写快捷键参数");
+        return;
+    }
     if (key_1 == "" || key_2 == "") {
         log.error("/>_ 请先JS配置中填写快捷键参数");
         return;
@@ -14,26 +28,6 @@
         log.error("/>_ JS配置中的两个快捷键参数不允许设置为相同值");
         return;
     }
-    let result_page = [false, false];
-    let captureRegion_1 = captureGameRegion();
-    let resList_1 = captureRegion_1.findMulti(RecognitionObject.ocrThis);
-    for (let i = 0; i < resList_1.count; i++) {
-        let res = resList_1[i];
-        if (res.text.includes("房间")) {
-            result_page[0] = true;
-        }
-        if (/1.+8/.test(res.text) && res.text.includes("准备就绪")) {
-            result_page[1] = true;
-        }
-        res.Dispose();
-    }
-    captureRegion_1.Dispose();
-    if (result_page[1]) {
-        log.info("/>_ 游戏主界面已识别");
-    } else {
-        log.error("/>_ 请确认下方步骤是否完成：\n                   - 创建关卡房间\n                   - 进入准备区\n                   - 确保房间中仅有1位玩家\n                   - 返回主界面");
-        return;
-    }
     let times = 0;
     while (true) {
         let result_state = [false, false, false];
@@ -41,17 +35,16 @@
         let timer = new Date(0);
         let count_1 = 0;
         while (true) {
-            await sleep(200);
             keyPress(key_1.toUpperCase());
             await sleep(1000);
             let captureRegion_2 = captureGameRegion();
             let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList_2.count; i++) {
                 let res = resList_2[i];
-                if (times != 0 || res.text.includes("一秒速通刷千星等级")) {
+                if (times != 0 || res.text.includes(gamename)) {
                     result_state[0] = true;
                 }
-                if (times != 0 || res.text.includes("准备区1/8")) {
+                if (times != 0 || res.text.includes(`准备区1/${gameplayer}`)) {
                     result_state[1] = true;
                 }
                 if (res.text.includes("开始游戏")) {
@@ -69,7 +62,7 @@
                     if (count_1 == 5) {
                         check_state = true;
                         log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);
-                        log.warn("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 一秒速通刷千星等级\n                   - 关卡GUID = 7094676912");
+                        log.warn("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 最快结算任务成就关卡\n                   - 关卡GUID = 7018653809");
                         log.warn("/>_ 脚本将尽力尝试继续运行，如遇问题请终止脚本并重新尝试");
                     } else {
                         log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);
@@ -83,8 +76,14 @@
             } else {
                 count_1++;
                 if (count_1 == 10) {
-                    log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
+                    if (times == 0) {
+                        log.error("/>_ 未能进入关卡开始游戏，请确认下方步骤是否完成：\n                   - 创建关卡房间\n                   - 进入准备区\n                   - 确保房间中仅有1位玩家\n                   - 返回游戏主界面");
+                    } else {
+                        log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
+                    }
                     return;
+                } else {
+                    continue;
                 }
             }
         }
@@ -114,7 +113,7 @@
                 break;
             }
             count_2++;
-            if (count_2 == 30) {
+            if (count_2 == 60) {
                 log.error("/>_ 由于未知原因，未能检测到游戏结束行为");
                 return;
             }

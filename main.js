@@ -57,7 +57,7 @@
             if (times == 0 && check_state == false) {
                 if (result_state[0] & result_state[1]) {
                     check_state = true;
-                    log.info("/>_ 关卡名称已识别");
+                    log.info("/>_ 关卡名称&状态已识别");
                 } else {
                     count_1++
                     if (count_1 == 5) {

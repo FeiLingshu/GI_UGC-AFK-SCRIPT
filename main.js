@@ -34,6 +34,7 @@
         let check_state = false;
         let timer = new Date(0);
         let count_1 = 0;
+        const regex = new RegExp(`准备区1.*?${gameplayer}`);
         while (true) {
             keyPress(key_1.toUpperCase());
             await sleep(1000);
@@ -44,7 +45,7 @@
                 if (times != 0 || res.text.includes(gamename)) {
                     result_state[0] = true;
                 }
-                if (times != 0 || res.text.includes(`准备区1/${gameplayer}`)) {
+                if (times != 0 || regex.test(res.text)) {
                     result_state[1] = true;
                 }
                 if (res.text.includes("开始游戏")) {
@@ -62,7 +63,7 @@
                     if (count_1 == 5) {
                         check_state = true;
                         log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);
-                        log.warn("/>_ 未识别到对应关卡：\n                   - 关卡名称 = 最快结算任务成就关卡\n                   - 关卡GUID = 7018653809");
+                        log.warn("/>_ 未识别到对应关卡：\n                   - 关卡名称 = {name}", gamename);
                         log.warn("/>_ 脚本将尽力尝试继续运行，如遇问题请终止脚本并重新尝试");
                     } else {
                         log.warn("/>_ 关卡名称识别失败，正在尝试重新识别（{retry}/5）...", count_1);

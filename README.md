@@ -2,17 +2,22 @@
 
 > __名字懒得想了，就这样吧，谁叫GitHub仓库名称只让英文:p__
 
+<a id="gt"></a>
+
 - __脚本基于 [`BetterGI`](https://github.com/babalae/better-genshin-impact) 编写__
-- __使用「 一秒速通刷千星等级 」关卡进行自动刷取奇域经验，关卡GUID：`7094676912`__
+- __使用「 最快结算任务成就关卡 」关卡进行自动刷取奇域经验，关卡GUID：`7018653809`__
 
 ### __使用教程__
 
 > [!NOTE]
->> __脚本开发时使用的BetterGI配置（OCR）__
+>> __脚本开发时使用的BetterGI版本：[0.53.0](https://github.com/babalae/better-genshin-impact/releases/tag/0.53.0)__
+>> - __不必使用相同版本，该提示信息仅提示'新版本BetterGI可能出现特性改变导致脚本某些语句运行异常'的情况__
+>> 
+>> __脚本开发时使用的BetterGI配置（OCR）：__
 >> - __模型：Paddle__  
 >> - __版本：V5Auto__
 >>
->> __相关配置可以在'设置-OCR配置'中找到__
+>> __相关配置可以在'设置-其他设置-OCR配置'中找到__
 > 
 > __请在开始前先设置BetterGI快捷键，防止无法停止脚本__
 > - __启动停止 BetterGI__
@@ -59,6 +64,13 @@
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/7.png)
 
 - __右键点击刚刚添加的JS脚本，选择「 修改JS脚本自定义配置 」，并设置两个游戏内快捷键的按键（进入房间按键可在「 [原神教程#3](#img3)图中右侧"房间"部分 」找到）（开始游戏按键可在「 [原神教程#2](#img2)图中右下角找到 」）__
+> [!WARNING]
+> __由于出现了目标关卡被下架的情况，现增加了额外的解决方案：__
+> - __推荐的[目标关卡](#gt)已更换__
+> - __添加了两个额外的配置项：__
+>     - __关卡名称（必填，用于首次循环前的OCR识别）（可在[原神教程#1](#img1)图中的关卡详情页找到，对应标题文本）__
+>     - __关卡人数限制（必填，用于首次循环前的OCR识别）（可在[原神教程#1](#img1)图中的关卡详情页找到，对应左侧列表中的'组队匹配上限'条目）__
+> __已更新[脚本所需时间线](#tl)__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/X.png)
 
@@ -70,10 +82,12 @@
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/8.png)
 
+<a id="tl"></a>
+
 > [!WARNING]
 > __脚本运行中时间间隔为固定值，游戏运行过慢可能导致出现异常__
 > __请先确认：__
-> - __开始游戏后，在关卡内耗时不超过30s__
+> - __开始游戏后，在关卡内耗时不超过60s__
 > - __关卡结束后点击返回大厅按钮开始，至返回主界面并再次打开关卡房间后，耗时不超过10s__
 >
 > ___务必在使用脚本前确认以上项目___

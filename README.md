@@ -6,6 +6,8 @@
 
 - __脚本基于 [`BetterGI`](https://github.com/babalae/better-genshin-impact) 编写__
 - __使用「 最快结算任务成就关卡 」关卡进行自动刷取奇域经验，关卡GUID：`7018653809`__
+    - __现在已支持使用其他关卡运行脚本，具体配置方式[前往这里](#imgX)查看__
+    - __请严格遵守[脚本运行时间线](#tl)限制__
 
 ### __使用教程__
 
@@ -62,6 +64,8 @@
 - __点击刚刚创建的配置组标签，并选择「 添加 」-「 JS脚本 」，添加刚刚解压的JS脚本__
 
 ![](https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/7.png)
+
+<a id="imgX"></a>
 
 - __右键点击刚刚添加的JS脚本，选择「 修改JS脚本自定义配置 」，并设置两个游戏内快捷键的按键（进入房间按键可在「 [原神教程#3](#img3)图中右侧"房间"部分 」找到）（开始游戏按键可在「 [原神教程#2](#img2)图中右下角找到 」）__
 > [!WARNING]

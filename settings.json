@@ -2,12 +2,17 @@
   {
     "name": "inputValue_OCR1",
     "type": "input-text",
-    "label": "[OCR] 关卡名称\n++ 推荐使用作者开发时使用的关卡，详见GitHub"
+    "label": "[OCR] 关卡名称\n————\n-> 推荐使用作者开发时使用的关卡，详见GitHub"
+  },
+  {
+    "name": "inputValue_OCR1_Fix",
+    "type": "input-text",
+    "label": "[OCR] 关卡GUID\n————\n-> 千星奇域会判定部分速刷关卡的名称违规\n-> 关卡名称重置后为包含关卡GUID的字符串\n-> 如暂不清楚关卡名称，[关卡名称]可暂时留空\n-> 关卡名称更改后务必重新填写[关卡名称]"
   },
   {
     "name": "inputValue_OCR2",
     "type": "select",
-    "label": "[OCR] 关卡人数限制\n++ 请按实际情况选择",
+    "label": "[OCR] 关卡人数限制\n————\n-> 请按实际情况选择",
     "options": [
       "1",
       "2",
@@ -28,5 +33,15 @@
     "name": "inputValue_2",
     "type": "input-text",
     "label": "开始游戏按键"
+  },
+  {
+    "name": "checkValue_TEST",
+    "type": "checkbox",
+    "label": "[DEBUG] 测试用，不用理会..."
+  },
+  {
+    "name": "inputValue_TEST",
+    "type": "input-text",
+    "label": "[DEBUG] 测试用，不用理会..."
   }
 ]

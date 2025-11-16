@@ -1,12 +1,24 @@
 (async function () {
     const gamename = settings.inputValue_OCR1;
+    const gameguid = settings.inputValue_OCR1_Fix;
     const gameplayer = settings.inputValue_OCR2;
-    if (typeof gamename === typeof (void 0) || typeof gameplayer === typeof (void 0)) {
-        log.error("/>_ 请先JS配置中填写关卡信息参数");
+    const debugtest1 = settings.checkValue_TEST;
+    const debugtest2 = settings.inputValue_TEST;
+    if (debugtest1 == true && typeof debugtest2 === typeof (void 0)) {
+        log.error("/>_ DEBUG中断...");
         return;
     }
-    if (gamename == "" && (gameplayer == "" || gameplayer < 1 || gameplayer > 8)) {
-        log.error("/>_ 请先JS配置中填写关卡信息参数");
+    if (typeof gamename === typeof (void 0)) {
+        gamename = "";
+    }
+    if (typeof gameguid === typeof (void 0)) {
+        gameguid = "";
+    }
+    if (typeof gameplayer === typeof (void 0)) {
+        gameplayer = "";
+    }
+    if ((gameguid == "" || !(/^\d+$/.test(gameguid))) || (gameplayer == "" || gameplayer < 1 || gameplayer > 8)) {
+        log.error("/>_ 请先JS配置中正确填写关卡信息参数");
         return;
     }
     const key_1 = settings.inputValue_1;
@@ -42,10 +54,18 @@
             let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList_2.count; i++) {
                 let res = resList_2[i];
-                if (times != 0 || res.text.includes(gamename)) {
+                if (times == 0) {
+                    if (gamename != "" && res.text.includes(gamename)) {
+                        result_state[0] = true;
+                    }
+                    if (res.text.includes(gameguid)) {
+                        result_state[0] = true;
+                    }
+                    if (regex.test(res.text)) {
+                        result_state[1] = true;
+                    }
+                } else {
                     result_state[0] = true;
-                }
-                if (times != 0 || regex.test(res.text)) {
                     result_state[1] = true;
                 }
                 if (res.text.includes("开始游戏")) {

@@ -1,13 +1,13 @@
 (async function () {
-    const gamename = settings.inputValue_OCR1;
-    const gameguid = settings.inputValue_OCR1_Fix;
-    const gameplayer = settings.inputValue_OCR2;
-    const debugtest1 = settings.checkValue_TEST;
-    const debugtest2 = settings.inputValue_TEST;
+    let debugtest1 = settings.checkValue_TEST;
+    let debugtest2 = settings.inputValue_TEST;
     if (debugtest1 == true && typeof debugtest2 === typeof (void 0)) {
         log.error("/>_ DEBUG中断...");
         return;
     }
+    let gamename = settings.inputValue_OCR1;
+    let gameguid = settings.inputValue_OCR1_Fix;
+    let gameplayer = settings.inputValue_OCR2;
     if (typeof gamename === typeof (void 0)) {
         gamename = "";
     }
@@ -21,8 +21,8 @@
         log.error("/>_ 请先JS配置中正确填写关卡信息参数");
         return;
     }
-    const key_1 = settings.inputValue_1;
-    const key_2 = settings.inputValue_2;
+    let key_1 = settings.inputValue_1;
+    let key_2 = settings.inputValue_2;
     if (typeof key_1 === typeof (void 0) || typeof key_2 === typeof (void 0)) {
         log.error("/>_ 请先JS配置中填写快捷键参数");
         return;
@@ -39,6 +39,23 @@
     if (key_1 == key_2) {
         log.error("/>_ JS配置中的两个快捷键参数不允许设置为相同值");
         return;
+    }
+    let key_3 = settings.inputValue_3;
+    if (typeof key_3 === typeof (void 0)) {
+        key_3 = 0;
+    }
+    if (key_3 == "") {
+        key_3 = 0;
+    }
+    if (!(/^\d+$/.test(key_3)) || key_3 < 0) {
+        log.error("/>_ 请先JS配置中正确填写执行次数限制参数");
+        return;
+    }
+    key_3 = Number(key_3);
+    if (key_3 == 0) {
+        log.info("/>_ 脚本执行次数限制已读取：{times}", "无限制");
+    } else {
+        log.info("/>_ 脚本执行次数限制已读取：{times}次", key_3);
     }
     let times = 0;
     while (true) {
@@ -131,7 +148,13 @@
             if (state) {
                 times++;
                 log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((Date.now() - timer) / 1000).toFixed(3));
-                break;
+                if (key_3 != 0 && times == key_3) {
+                    await sleep(1000);
+                    log.info("/>_ 脚本运行次数已达上限（{times}次）", key_3);
+                    return;
+                } else {
+                    break;
+                }
             }
             count_2++;
             if (count_2 == 60) {

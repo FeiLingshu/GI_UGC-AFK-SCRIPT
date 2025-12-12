@@ -7,7 +7,7 @@
   {
     "name": "inputValue_OCR1_Fix",
     "type": "input-text",
-    "label": "[OCR] 关卡GUID\n————\n-> 千星奇域会判定部分速刷关卡的名称违规\n-> 关卡名称重置后为包含关卡GUID的字符串\n-> 如暂不清楚关卡名称，[关卡名称]可暂时留空\n-> 关卡名称更改后务必重新填写[关卡名称]"
+    "label": "[OCR] 关卡GUID\n————\n-> 千星奇域会判定部分速刷关卡的名称违规\n-> 关卡名称重置后为包含关卡GUID的字符串\n-> 如暂不清楚关卡名称，「关卡名称」可暂时留空\n-> 关卡名称更改后务必重新填写「关卡名称」"
   },
   {
     "name": "inputValue_OCR2",
@@ -33,6 +33,11 @@
     "name": "inputValue_2",
     "type": "input-text",
     "label": "开始游戏按键"
+  },
+  {
+    "name": "inputValue_3",
+    "type": "input-text",
+    "label": "脚本执行次数限制\n————\n-> 留空或填入0 = 无限制\n-> 正常情况下，每次循环可刷取20奇域经验"
   },
   {
     "name": "checkValue_TEST",

@@ -1,4 +1,30 @@
+/// <reference path="../bettergi.d.ts" />
 (async function () {
+    const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%232";
+    log.info("/>_ 正在获取更新...");
+    try {
+        const headers = JSON.stringify({
+            "User-Agent": "Mozilla/5.0"
+        });
+        const response = await http.request("GET", "https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version", null, headers);
+        if (response.status_code === 200) {
+            if (version == response.body.trim()) {
+                log.info("/>_ {true}", "目前已是最新版本");
+            } else {
+                log.warn("/>_ 存在版本更新：{url}", response.body.trim());
+            }
+        } else {
+            log.error("/>_ 获取更新失败：{code}", response.status_code);
+        }
+    } catch (error) {
+        if (error.message.includes("不允许请求此URL")) {
+            log.error("/>_  获取更新失败：URL不在允许列表中");
+        } else if (error.message.includes("JS HTTP权限")) {
+            log.error("/>_ 获取更新失败：未启用JS-HTTP权限");
+        } else {
+            log.error("/>_ 获取更新失败：{message}", error.message);
+        }
+    }
     let debugtest1 = settings.checkValue_TEST;
     let debugtest2 = settings.inputValue_TEST;
     if (debugtest1 == true && typeof debugtest2 === typeof (void 0)) {
@@ -137,14 +163,12 @@
                 let res = resList_3[i];
                 if (res.text.includes("返回大厅")) {
                     await sleep(200);
-                    moveMouseTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
-                    leftButtonClick();
+                    captureRegion_3.clickTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
                     state = true;
                     break;
                 }
                 res.Dispose();
             }
-            captureRegion_3.Dispose();
             if (state) {
                 times++;
                 log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((Date.now() - timer) / 1000).toFixed(3));
@@ -155,7 +179,10 @@
                 } else {
                     break;
                 }
+            } else {
+                captureRegion_3.clickTo(Math.round(captureRegion_3.width / 2), Math.round(captureRegion_3.height - captureRegion_3.height / 4));
             }
+            captureRegion_3.Dispose();
             count_2++;
             if (count_2 == 60) {
                 log.error("/>_ 由于未知原因，未能检测到游戏结束行为");

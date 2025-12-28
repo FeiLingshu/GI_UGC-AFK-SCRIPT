@@ -1,6 +1,6 @@
 /// <reference path="../bettergi.d.ts" />
 (async function () {
-    const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%232";
+    const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%233";
     log.info("/>_ 正在获取更新...");
     let p1;
     let p2; try {
@@ -312,4 +312,5 @@ function isCustomErrorArray(error) {
         'DATA' in item &&
         'ERROR' in item
     );
+
 }

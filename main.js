@@ -15,7 +15,7 @@
         }
         switch (data.URL) {
             case "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
-                log.info("/>_ 数据源：{host}", "https://gh-proxy.org");
+                log.info("/>_ 数据源：{host}", "https://gh-proxy.com");
                 break;
             case "https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
                 log.info("/>_ 数据源：{host}", "https://hub.gitmirror.com");
@@ -314,3 +314,4 @@ function isCustomErrorArray(error) {
     );
 
 }
+

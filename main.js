@@ -1,11 +1,16 @@
 /// <reference path="../bettergi.d.ts" />
+const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Fix%235";
+const u1 = "https://gitee.com/FeiLingshu/GI_UGC-AFK-SCRIPT_mirror/raw/master/version";
+const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version";
 (async function () {
-    const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%233";
     log.info("/>_ 正在获取更新...");
     let p1;
-    let p2; try {
-        p1 = httpRequest('https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version');
-        p2 = httpRequest('https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version');
+    let p2;
+    try {
+        p1 = httpRequest(u1);
+        p2 = httpRequest(u2);
+        p1.catch(() => {});
+        p2.catch(() => {});
         const data = await executeConcurrent(p1, p2);
         //log.info("URL: {url}\nDATA: {data}", data.URL, data.DATA);
         if (version == data.DATA) {
@@ -14,11 +19,11 @@
             log.warn("/>_ 存在版本更新：{url}", data.DATA);
         }
         switch (data.URL) {
-            case "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
-                log.info("/>_ 数据源：{host}", "https://gh-proxy.com");
+            case u1:
+                log.info("/>_ 数据源：{host}", "https://gitee.com");
                 break;
-            case "https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
-                log.info("/>_ 数据源：{host}", "https://hub.gitmirror.com");
+            case u2:
+                log.info("/>_ 数据源：{host}", "https://gh-proxy.com");
                 break;
             default:
                 log.info("/>_ 数据源：{host}", "unknown");
@@ -28,31 +33,8 @@
         if (isCustomErrorArray(errs)) {
             // log.error("URL: {url}\nCODE: {code}", errs.ERR1.URL, errs.ERR1.CODE);
             // log.error("URL: {url}\nCODE: {code}", errs.ERR2.URL, errs.ERR2.CODE);
-            errs.forEach(err => {
-                switch (err.URL) {
-                    case "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
-                        if (err.CODE == -1) {
-                            log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "https://gh-proxy.org");
-                        } else {
-                            log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "https://gh-proxy.org");
-                        }
-                        break;
-                    case "https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version":
-                        if (err.CODE == -1) {
-                            log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "https://hub.gitmirror.com");
-                        } else {
-                            log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "https://hub.gitmirror.com");
-                        }
-                        break;
-                    default:
-                        if (err.CODE == -1) {
-                            log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "unknown");
-                        } else {
-                            log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "unknown");
-                        }
-                        break;
-                }
-            });
+            printError(errs.ERR1);
+            printError(errs.ERR2);
         } else {
             // log.error("{std}", errs.message || "未捕获到详细信息");
             log.error("/>_ 获取更新失败：{info}", errs.message || "未捕获到详细信息");
@@ -288,12 +270,12 @@ async function executeConcurrent(p1, p2) {
         const [error1, error2] = aggregateError.errors;
         let err1;
         let err2;
-        if (error1.URL == url1) {
+        if (error1.URL == u1) {
             err1 = { URL: error1.URL, CODE: error1.CODE, DATA: "", ERROR: error1.ERROR };
         } else {
             err2 = { URL: error1.URL, CODE: error1.CODE, DATA: "", ERROR: error1.ERROR };
         }
-        if (error2.URL == url2) {
+        if (error2.URL == u2) {
             err2 = { URL: error2.URL, CODE: error2.CODE, DATA: "", ERROR: error2.ERROR };
         } else {
             err1 = { URL: error2.URL, CODE: error2.CODE, DATA: "", ERROR: error2.ERROR };
@@ -303,15 +285,34 @@ async function executeConcurrent(p1, p2) {
 }
 
 function isCustomErrorArray(error) {
-    if (!Array.isArray(error)) return false;
-    return error.every(item =>
-        typeof item === 'object' &&
-        item !== null &&
-        'URL' in item &&
-        'CODE' in item &&
-        'DATA' in item &&
-        'ERROR' in item
-    );
-
+    return typeof error === 'object' &&
+        error !== null &&
+        'ERR1' in error &&
+        'ERR2' in error;
 }
 
+function printError(err) {
+    switch (err.URL) {
+        case u1:
+            if (err.CODE == -1) {
+                log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "https://gitee.com");
+            } else {
+                log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "https://gitee.com");
+            }
+            break;
+        case u2:
+            if (err.CODE == -1) {
+                log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "https://gh-proxy.org");
+            } else {
+                log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "https://gh-proxy.org");
+            }
+            break;
+        default:
+            if (err.CODE == -1) {
+                log.info("/>_ 获取更新失败：{msg} ({host})", err.ERROR || "未捕获到详细信息", "unknown");
+            } else {
+                log.info("/>_ 获取更新失败：{code} ({host})", err.CODE, "unknown");
+            }
+            break;
+    }
+}

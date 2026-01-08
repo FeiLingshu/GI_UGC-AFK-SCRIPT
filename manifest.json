@@ -13,7 +13,7 @@
   "settings_ui": "settings.json",
   "main": "main.js",
   "http_allowed_urls": [
-    "https://hub.gitmirror.com/raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version",
+    "https://gitee.com/FeiLingshu/GI_UGC-AFK-SCRIPT_mirror/raw/master/version",
     "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version"
   ]
 }

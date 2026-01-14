@@ -25,11 +25,6 @@
     ]
   },
   {
-    "name": "inputValue_1",
-    "type": "input-text",
-    "label": "进入房间按键"
-  },
-  {
     "name": "inputValue_2",
     "type": "input-text",
     "label": "开始游戏按键"
@@ -38,15 +33,5 @@
     "name": "inputValue_3",
     "type": "input-text",
     "label": "脚本执行次数限制\n————\n-> 留空或填入0 = 无限制\n-> 正常情况下，每次循环可刷取20奇域经验"
-  },
-  {
-    "name": "checkValue_TEST",
-    "type": "checkbox",
-    "label": "[DEBUG] 测试用，不用理会..."
-  },
-  {
-    "name": "inputValue_TEST",
-    "type": "input-text",
-    "label": "[DEBUG] 测试用，不用理会..."
   }
 ]

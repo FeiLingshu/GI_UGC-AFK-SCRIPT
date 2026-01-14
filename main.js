@@ -1,5 +1,5 @@
 /// <reference path="../bettergi.d.ts" />
-const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Fix%235";
+const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%234";
 const u1 = "https://gitee.com/FeiLingshu/GI_UGC-AFK-SCRIPT_mirror/raw/master/version";
 const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version";
 (async function () {
@@ -68,16 +68,15 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
         log.info("/>_ 资源释放完成");
         return;
     }
-    let key_1 = settings.inputValue_1;
-    let key_2 = settings.inputValue_2;
-    if (typeof key_1 === typeof (void 0) || typeof key_2 === typeof (void 0)) {
+    let key = settings.inputValue_2;
+    if (typeof key === typeof (void 0)) {
         log.error("/>_ 请先JS配置中填写快捷键参数");
         log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
         await Promise.allSettled([p1, p2]);
         log.info("/>_ 资源释放完成");
         return;
     }
-    if (key_1 == "" || key_2 == "") {
+    if (key == "") {
         log.error("/>_ 请先JS配置中填写快捷键参数");
         log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
         await Promise.allSettled([p1, p2]);
@@ -85,15 +84,8 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
         return;
     }
     const regex = /^[a-zA-Z0-9`~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/;
-    if (!regex.test(key_1) || !regex.test(key_2)) {
+    if (!regex.test(key)) {
         log.error("/>_ JS配置中的快捷键参数不合法，请设置为以下范围：\n                   - F1~F12\n                   - A~Z\n                   - 0~9\n                   - 所有键盘上可见的符号按键");
-        log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
-        await Promise.allSettled([p1, p2]);
-        log.info("/>_ 资源释放完成");
-        return;
-    }
-    if (key_1 == key_2) {
-        log.error("/>_ JS配置中的两个快捷键参数不允许设置为相同值");
         log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
         await Promise.allSettled([p1, p2]);
         log.info("/>_ 资源释放完成");
@@ -127,7 +119,6 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
         let count_1 = 0;
         const regex = new RegExp(`准备区1.*?${gameplayer}`);
         while (true) {
-            keyPress(key_1.toUpperCase());
             await sleep(1000);
             let captureRegion_2 = captureGameRegion();
             let resList_2 = captureRegion_2.findMulti(RecognitionObject.ocrThis);
@@ -177,7 +168,7 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
                 count_1++;
                 if (count_1 == 10) {
                     if (times == 0) {
-                        log.error("/>_ 未能进入关卡开始游戏，请确认下方步骤是否完成：\n                   - 创建关卡房间\n                   - 进入准备区\n                   - 确保房间中仅有1位玩家\n                   - 返回游戏主界面");
+                        log.error("/>_ 未能进入关卡开始游戏，请确认下方步骤是否完成：\n                   - 创建关卡房间\n                   - 进入准备区\n                   - 确保房间中仅有1位玩家");
                     } else {
                         log.error("/>_ 由于未知原因，未能进入关卡开始游戏");
                     }
@@ -191,7 +182,7 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
             }
         }
         await sleep(200);
-        keyPress(key_2.toUpperCase());
+        keyPress(key.toUpperCase());
         await sleep(1000);
         let state = false;
         let count_2 = 0;
@@ -200,7 +191,7 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
             let resList_3 = captureRegion_3.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList_3.count; i++) {
                 let res = resList_3[i];
-                if (res.text.includes("返回大厅")) {
+                if (res.text.includes("返回房间")) {
                     await sleep(200);
                     captureRegion_3.clickTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
                     state = true;

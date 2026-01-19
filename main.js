@@ -1,5 +1,5 @@
 /// <reference path="../bettergi.d.ts" />
-const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Add%234";
+const version = "https://github.com/FeiLingshu/GI_UGC-AFK-SCRIPT/releases/tag/v999.9.9-Fix%236";
 const u1 = "https://gitee.com/FeiLingshu/GI_UGC-AFK-SCRIPT_mirror/raw/master/version";
 const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI_UGC-AFK-SCRIPT/refs/heads/resources/version";
 (async function () {
@@ -9,8 +9,8 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
     try {
         p1 = httpRequest(u1);
         p2 = httpRequest(u2);
-        p1.catch(() => {});
-        p2.catch(() => {});
+        p1.catch(() => { });
+        p2.catch(() => { });
         const data = await executeConcurrent(p1, p2);
         //log.info("URL: {url}\nDATA: {data}", data.URL, data.DATA);
         if (version == data.DATA) {
@@ -162,7 +162,6 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
                 }
             }
             if (result_state[2]) {
-                timer = Date.now();
                 break;
             } else {
                 count_1++;
@@ -181,27 +180,99 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
                 }
             }
         }
-        await sleep(200);
-        keyPress(key.toUpperCase());
+        await sleep(500);
+        timer = Date.now();
+        let checkflag_1 = true;
+        let checkcount_1 = 0;
+        while (true) {
+            keyPress(key.toUpperCase());
+            await sleep(1000);
+            checkflag_1 = true;
+            checkcount_1++;
+            let captureRegion_2_Plus = captureGameRegion();
+            let resList_2_Plus = captureRegion_2_Plus.findMulti(RecognitionObject.ocrThis);
+            for (let i = 0; i < resList_2_Plus.count; i++) {
+                let res = resList_2_Plus[i];
+                if (res.text.includes("开始游戏")) {
+                    checkflag_1 = false;
+                    res.Dispose();
+                    break;
+                }
+                res.Dispose();
+            }
+            captureRegion_2_Plus.Dispose();
+            if (checkflag_1) {
+                break;
+            } else {
+                if (checkcount_1 == 5) {
+                    log.error("/>_ 由于未知原因，未能检测到进入关卡行为");
+                    log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
+                    await Promise.allSettled([p1, p2]);
+                    log.info("/>_ 资源释放完成");
+                    return;
+                }
+            }
+        }
         await sleep(1000);
         let state = false;
         let count_2 = 0;
         while (true) {
+            let m_x = 0;
+            let m_y = 0;
             let captureRegion_3 = captureGameRegion();
             let resList_3 = captureRegion_3.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList_3.count; i++) {
                 let res = resList_3[i];
                 if (res.text.includes("返回房间")) {
-                    await sleep(200);
-                    captureRegion_3.clickTo(Math.round(res.x + res.Width / 2), Math.round(res.y + res.Height / 2));
+                    m_x = Math.round(res.x + res.Width / 2);
+                    m_y = Math.round(res.y + res.Height / 2);
                     state = true;
+                    res.Dispose();
                     break;
                 }
                 res.Dispose();
             }
+            await sleep(500);
+            const [width, height, dpi] = getGameMetrics();
+            const x = Math.round(16 * (captureRegion_3.width / width));
+            const y = Math.round(16 * (captureRegion_3.height / height));
             if (state) {
+                let timer_end;
+                let checkflag_2 = true;
+                let checkcount_2 = 0;
+                while (true) {
+                    timer_end = Date.now();
+                    captureRegion_3.clickTo(m_x, m_y);
+                    await sleep(1000);
+                    checkflag_2 = true;
+                    checkcount_2++;
+                    captureRegion_3.clickTo(x, y);
+                    let captureRegion_3_Plus = captureGameRegion();
+                    let resList_3_Plus = captureRegion_3_Plus.findMulti(RecognitionObject.ocrThis);
+                    for (let i = 0; i < resList_3_Plus.count; i++) {
+                        let res = resList_3_Plus[i];
+                        if (res.text.includes("返回房间")) {
+                            checkflag_2 = false;
+                            res.Dispose();
+                            break;
+                        }
+                        res.Dispose();
+                    }
+                    captureRegion_3_Plus.Dispose();
+                    if (checkflag_2) {
+                        break;
+                    } else {
+                        if (checkcount_2 == 5) {
+                            log.error("/>_ 由于未知原因，未能检测到返回房间行为");
+                            log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
+                            await Promise.allSettled([p1, p2]);
+                            log.info("/>_ 资源释放完成");
+                            return;
+                        }
+                    }
+                }
                 times++;
-                log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((Date.now() - timer) / 1000).toFixed(3));
+                log.info("/>_ 关卡已完成（次数：{times}，耗时：{time}s）", times, ((timer_end - timer) / 1000).toFixed(3));
                 if (key_3 != 0 && times == key_3) {
                     await sleep(1000);
                     log.info("/>_ 脚本运行次数已达上限（{times}次）", key_3);
@@ -213,12 +284,12 @@ const u2 = "https://gh-proxy.org/https://raw.githubusercontent.com/FeiLingshu/GI
                     break;
                 }
             } else {
-                captureRegion_3.clickTo(Math.round(captureRegion_3.width / 2), Math.round(captureRegion_3.height - captureRegion_3.height / 4));
+                captureRegion_3.clickTo(x, y);
             }
             captureRegion_3.Dispose();
             count_2++;
             if (count_2 == 60) {
-                log.error("/>_ 由于未知原因，未能检测到游戏结束行为");
+                log.error("/>_ 由于未知原因，未能检测到速刷关卡结算行为");
                 log.warn("/>_ 正在等待资源释放，请勿手动终止脚本");
                 await Promise.allSettled([p1, p2]);
                 log.info("/>_ 资源释放完成");
